@@ -1,0 +1,17 @@
+{
+  "name": "historical-vessels-3",
+  "version": "1.0.0",
+  "description": "Hong Kong Maritime Collection - Historical Vessels Timeline",
+  "scripts": {
+    "dev": "echo 'Static site - no build needed. Deploy directly to Vercel.'"
+  },
+  "keywords": [
+    "maritime",
+    "history",
+    "hong-kong",
+    "timeline"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
