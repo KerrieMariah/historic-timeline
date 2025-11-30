@@ -9,6 +9,10 @@
       "destination": "/so-fung-timeline.html"
     },
     {
+      "source": "/so-fung-light",
+      "destination": "/so-fung-timeline-light.html"
+    },
+    {
       "source": "/star-ferry",
       "destination": "/star-ferry-timeline-elegant.html"
     },
