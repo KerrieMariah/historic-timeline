@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hong Kong Maritime Collection | Private Museum</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;500&family=Noto+Serif+SC:wght@200;400&display=swap');
+
+        :root {
+            --museum-black: #0a0a0a;
+            --museum-charcoal: #1c1c1c;
+            --warm-grey: #3a3a3a;
+            --antique-gold: #9b8347;
+            --champagne-gold: #d4af37;
+            --ivory: #fffef7;
+            --pearl: #f8f6f0;
+            --burgundy: #5c1a1a;
+            --deep-navy: #1a2332;
+            --patina: #6b7f7f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        /* Custom cursor for luxury feel */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--antique-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease;
+            z-index: 10000;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            width: 4px;
+            height: 4px;
+            background: var(--champagne-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--museum-black);
+            color: var(--ivory);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            letter-spacing: 0.02em;
+        }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at top, rgba(212, 175, 55, 0.03) 0%, transparent 60%),
+                url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence baseFrequency="0.9" numOctaves="4"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.02"/%3E%3C/svg%3E');
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Museum Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 4rem 0 3rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            background: linear-gradient(180deg, var(--museum-black) 0%, rgba(10,10,10,0.95) 100%);
+        }
+
+        .museum-mark {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .museum-mark::before,
+        .museum-mark::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--antique-gold), transparent);
+            top: 50%;
+        }
+
+        .museum-mark::before {
+            left: -120px;
+        }
+
+        .museum-mark::after {
+            right: -120px;
+        }
+
+        .est-date {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            color: var(--antique-gold);
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 200;
+            font-size: 3.5rem;
+            letter-spacing: 0.08em;
+            margin: 1.5rem 0;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, var(--ivory) 0%, var(--antique-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .chinese-title {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 200;
+            font-size: 1.8rem;
+            color: var(--antique-gold);
+            letter-spacing: 0.5em;
+            margin: 1rem 0;
+            opacity: 0.8;
+        }
+
+        .divider-ornament {
+            width: 60px;
+            height: 30px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .divider-ornament::before {
+            content: '◆';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--antique-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Gallery Navigation */
+        .collection-nav {
+            max-width: 900px;
+            margin: 3rem auto 4rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            color: var(--patina);
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: none;
+        }
+
+        .nav-item:hover {
+            color: var(--champagne-gold);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--champagne-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* Museum Gallery Grid */
+        .gallery-section {
+            position: relative;
+            z-index: 5;
+        }
+
+        .gallery-title {
+            text-align: center;
+            margin: 4rem 0 3rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--antique-gold);
+        }
+
+        .vessels-gallery {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2px;
+            background: rgba(212, 175, 55, 0.1);
+            position: relative;
+        }
+
+        /* Vessel Exhibition Cards */
+        .vessel-exhibit {
+            position: relative;
+            height: 500px;
+            background: var(--museum-charcoal);
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: none;
+        }
+
+        .vessel-exhibit:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .exhibit-frame {
+            position: absolute;
+            inset: 1px;
+            background: linear-gradient(180deg, var(--museum-charcoal) 0%, var(--museum-black) 100%);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Museum Placard Style */
+        .exhibit-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 100;
+            color: rgba(212, 175, 55, 0.2);
+            z-index: 1;
+        }
+
+        .vessel-portrait {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(180deg, rgba(212, 175, 55, 0.02) 0%, transparent 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .vessel-portrait::before {
+            content: '⚓';
+            font-size: 6rem;
+            color: rgba(212, 175, 55, 0.08);
+            position: absolute;
+            transition: all 0.6s ease;
+        }
+
+        .vessel-exhibit:hover .vessel-portrait::before {
+            transform: scale(1.1);
+            color: rgba(212, 175, 55, 0.15);
+        }
+
+        /* Museum Label */
+        .vessel-placard {
+            background: var(--museum-black);
+            padding: 2rem 1.5rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            position: relative;
+        }
+
+        .placard-header {
+            margin-bottom: 1rem;
+        }
+
+        .vessel-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--ivory);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.3rem;
+        }
+
+        .vessel-chinese {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 200;
+            font-size: 1rem;
+            color: var(--antique-gold);
+            letter-spacing: 0.2em;
+        }
+
+        .vessel-details {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .detail-line {
+            font-size: 0.85rem;
+            color: var(--patina);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .era {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* View Collection Button */
+        .view-collection {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.8rem;
+            background: rgba(212, 175, 55, 0.05);
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--antique-gold);
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.4s ease;
+            cursor: none;
+        }
+
+        .vessel-exhibit:hover .view-collection {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .museum-footer {
+            margin-top: 5rem;
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            font-family: 'Playfair Display', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--patina);
+        }
+
+        /* Entrance Animation */
+        .vessel-exhibit {
+            opacity: 0;
+            animation: revealExhibit 0.8s ease forwards;
+        }
+
+        .vessel-exhibit:nth-child(1) { animation-delay: 0.1s; }
+        .vessel-exhibit:nth-child(2) { animation-delay: 0.2s; }
+        .vessel-exhibit:nth-child(3) { animation-delay: 0.3s; }
+        .vessel-exhibit:nth-child(4) { animation-delay: 0.4s; }
+        .vessel-exhibit:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes revealExhibit {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .vessels-gallery { 
+                grid-template-columns: 1fr; 
+                padding: 0 1rem 3rem;
+            }
+            .museum-mark::before,
+            .museum-mark::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <header>
+        <div class="museum-mark">
+            <div class="est-date">Established 2024</div>
+        </div>
+        <h1>The Maritime Collection</h1>
+        <div class="chinese-title">海事珍藏</div>
+        <div class="divider-ornament"></div>
+    </header>
+
+    <nav class="collection-nav">
+        <a href="#" class="nav-item">The Collection</a>
+        <a href="#" class="nav-item">Exhibitions</a>
+        <a href="#" class="nav-item">Archive</a>
+        <a href="#" class="nav-item">Patron Circle</a>
+        <a href="#" class="nav-item">Contact</a>
+    </nav>
+
+    <section class="gallery-section">
+        <h2 class="gallery-title">Select a Vessel to Explore</h2>
+        
+        <div class="vessels-gallery">
+            <!-- Vessel 1: Star Ferry -->
+            <article class="vessel-exhibit" onclick="navigateToTimeline('star-ferry')">
+                <div class="exhibit-frame">
+                    <span class="exhibit-number">I</span>
+                    <div class="vessel-portrait"></div>
+                    <div class="vessel-placard">
+                        <div class="placard-header">
+                            <h3 class="vessel-name">Star Ferry</h3>
+                            <div class="vessel-chinese">天星小輪</div>
+                        </div>
+                        <div class="vessel-details">
+                            <p class="detail-line">Meridian-Class Passenger Vessel</p>
+                            <p class="detail-line era">Victorian Era, 1888</p>
+                            <p class="detail-line">Victoria Harbour Service</p>
+                        </div>
+                    </div>
+                    <div class="view-collection">View Timeline →</div>
+                </div>
+            </article>
+
+            <!-- Vessel 2: Aqua Luna -->
+            <article class="vessel-exhibit" onclick="navigateToTimeline('aqua-luna')">
+                <div class="exhibit-frame">
+                    <span class="exhibit-number">II</span>
+                    <div class="vessel-portrait"></div>
+                    <div class="vessel-placard">
+                        <div class="placard-header">
+                            <h3 class="vessel-name">Aqua Luna</h3>
+                            <div class="vessel-chinese">張保仔號</div>
+                        </div>
+                        <div class="vessel-details">
+                            <p class="detail-line">Traditional Chinese Junk</p>
+                            <p class="detail-line era">Qing Dynasty Design</p>
+                            <p class="detail-line">Red Sail Configuration</p>
+                        </div>
+                    </div>
+                    <div class="view-collection">View Timeline →</div>
+                </div>
+            </article>
+
+            <!-- Vessel 3: Fireboat Alexander -->
+            <article class="vessel-exhibit" onclick="navigateToTimeline('fireboat-alexander')">
+                <div class="exhibit-frame">
+                    <span class="exhibit-number">III</span>
+                    <div class="vessel-portrait"></div>
+                    <div class="vessel-placard">
+                        <div class="placard-header">
+                            <h3 class="vessel-name">Alexander Grantham</h3>
+                            <div class="vessel-chinese">葛量洪號</div>
+                        </div>
+                        <div class="vessel-details">
+                            <p class="detail-line">Marine Fire Apparatus</p>
+                            <p class="detail-line era">Service Period 1953-2002</p>
+                            <p class="detail-line">Museum Ship Status</p>
+                        </div>
+                    </div>
+                    <div class="view-collection">View Timeline →</div>
+                </div>
+            </article>
+
+            <!-- Vessel 4: Duk Ling -->
+            <article class="vessel-exhibit" onclick="navigateToTimeline('duk-ling')">
+                <div class="exhibit-frame">
+                    <span class="exhibit-number">IV</span>
+                    <div class="vessel-portrait"></div>
+                    <div class="vessel-placard">
+                        <div class="placard-header">
+                            <h3 class="vessel-name">Duk Ling</h3>
+                            <div class="vessel-chinese">鴨靈號</div>
+                        </div>
+                        <div class="vessel-details">
+                            <p class="detail-line">Authentic Fishing Junk</p>
+                            <p class="detail-line era">Constructed 1955</p>
+                            <p class="detail-line">Last of Its Kind</p>
+                        </div>
+                    </div>
+                    <div class="view-collection">View Timeline →</div>
+                </div>
+            </article>
+
+            <!-- Vessel 5: Tin Hau -->
+            <article class="vessel-exhibit" onclick="navigateToTimeline('tin-hau')">
+                <div class="exhibit-frame">
+                    <span class="exhibit-number">V</span>
+                    <div class="vessel-portrait"></div>
+                    <div class="vessel-placard">
+                        <div class="placard-header">
+                            <h3 class="vessel-name">Tin Hau Temple Boat</h3>
+                            <div class="vessel-chinese">天后廟船</div>
+                        </div>
+                        <div class="vessel-details">
+                            <p class="detail-line">Floating Temple Vessel</p>
+                            <p class="detail-line era">Religious Maritime Heritage</p>
+                            <p class="detail-line">Ceremonial Functions</p>
+                        </div>
+                    </div>
+                    <div class="view-collection">View Timeline →</div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer class="museum-footer">
+        <p>A Private Collection · Hong Kong</p>
+    </footer>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Hover effects for cursor
+        const hoverElements = document.querySelectorAll('.vessel-exhibit, .nav-item');
+        hoverElements.forEach(elem => {
+            elem.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                cursor.style.borderColor = 'var(--champagne-gold)';
+            });
+            elem.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = 'var(--antique-gold)';
+            });
+        });
+
+        // Navigation function
+        function navigateToTimeline(vesselId) {
+            const exhibit = event.currentTarget;
+            exhibit.style.opacity = '0.5';
+            setTimeout(() => {
+                console.log(`Navigating to timeline for: ${vesselId}`);
+                alert(`The ${vesselId} timeline exhibition would open here.\nImagine an elegant scrolling timeline with archival photographs and detailed historical narratives.`);
+                exhibit.style.opacity = '1';
+            }, 300);
+        }
+
+        // Subtle parallax on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('header');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Page load animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 1.5s ease-in';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Ferry — A Century on the Waters | The Maritime Collection</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Didot&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Crimson+Pro:ital,wght@0,200;0,300;0,400;1,200&family=Noto+Serif+TC:wght@200;300&display=swap');
+
+        :root {
+            --obsidian: #0c0c0c;
+            --charcoal: #1a1a1a;
+            --smoke: #2a2a2a;
+            --old-gold: #b5985a;
+            --bright-gold: #e8d4a0;
+            --cream: #faf8f3;
+            --parchment: #f5f2e8;
+            --blood-orange: #8b2c1b;
+            --sage: #7a8775;
+            --copper: #a0826d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        ::selection {
+            background: var(--old-gold);
+            color: var(--obsidian);
+        }
+
+        /* Custom Cursor */
+        .cursor-outer {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--old-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-inner {
+            width: 3px;
+            height: 3px;
+            background: var(--bright-gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.08s ease-out;
+        }
+
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--obsidian);
+            color: var(--cream);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Noise Texture Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(181, 152, 90, 0.03) 2px,
+                    rgba(181, 152, 90, 0.03) 4px
+                );
+            animation: grain 8s steps(10) infinite;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            30% { transform: translate(3%, 15%); }
+            50% { transform: translate(-10%, 10%); }
+            70% { transform: translate(9%, -5%); }
+            90% { transform: translate(-1%, 7%); }
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            z-index: 1000;
+            mix-blend-mode: difference;
+        }
+
+        .nav-home {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--bright-gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Opening Scene */
+        .opening-scene {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(181, 152, 90, 0.05) 0%, transparent 60%);
+        }
+
+        .title-composition {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .vessel-number {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 200;
+            font-size: 8rem;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(181, 152, 90, 0.3);
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+
+        .main-title {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 400;
+            font-size: clamp(4rem, 10vw, 8rem);
+            letter-spacing: -0.02em;
+            line-height: 0.9;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--old-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleReveal 2s ease-out;
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                letter-spacing: 0.5em;
+            }
+            to {
+                opacity: 1;
+                letter-spacing: -0.02em;
+            }
+        }
+
+        .title-chinese {
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 200;
+            font-size: 2.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--old-gold);
+            opacity: 0.7;
+            animation: fadeInUp 1.5s ease-out 0.5s both;
+        }
+
+        .established {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 200;
+            font-style: italic;
+            font-size: 1.2rem;
+            letter-spacing: 0.3em;
+            color: var(--copper);
+            animation: fadeInUp 1.5s ease-out 0.7s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Chapter Divider */
+        .chapter-divider {
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 10rem 0;
+        }
+
+        .chapter-title {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 200;
+            font-size: 3rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--old-gold);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chapter-title.visible {
+            opacity: 0.5;
+            transform: translateY(0);
+        }
+
+        /* Timeline Container */
+        .timeline-container {
+            position: relative;
+            max-width: 100vw;
+            margin: 0;
+            padding: 10rem 0;
+        }
+
+        /* Golden Thread */
+        .golden-thread {
+            position: fixed;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(
+                180deg,
+                transparent 0%,
+                var(--old-gold) 20%,
+                var(--old-gold) 80%,
+                transparent 100%
+            );
+            opacity: 0.3;
+            z-index: 5;
+            transform: translateX(-50%);
+        }
+
+        .thread-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: var(--bright-gold);
+            box-shadow: 0 0 20px var(--bright-gold);
+            transition: height 0.1s linear;
+        }
+
+        /* Timeline Moments with Images */
+        .timeline-moment {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 5rem 0;
+        }
+
+        .timeline-moment.with-image {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 5rem 4rem;
+            align-items: center;
+        }
+
+        .timeline-moment.with-image:nth-child(even) {
+            direction: rtl;
+        }
+
+        .timeline-moment.with-image:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .moment-content {
+            padding: 0 5rem;
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .moment-content.revealed {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .year-marker {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 8rem;
+            font-weight: 700;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(181, 152, 90, 0.2);
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+            position: relative;
+        }
+
+        .year-marker::after {
+            content: attr(data-year);
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            color: var(--old-gold);
+            opacity: 0.1;
+            -webkit-text-stroke: 0;
+        }
+
+        .moment-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .moment-description {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--copper);
+            max-width: 500px;
+        }
+
+        /* Image Containers */
+        .moment-image-large {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .moment-image-large.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--smoke) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Beautiful gradient placeholders for different images */
+        .image-placeholder.harbor-dawn {
+            background: linear-gradient(135deg, #1a3a52 0%, #f4a460 50%, #ffd4a3 100%);
+        }
+
+        .image-placeholder.vintage-photo {
+            background: linear-gradient(135deg, #3a3a3a 0%, #8b7355 50%, #d4af37 100%);
+            filter: sepia(0.3);
+        }
+
+        .image-placeholder.war-era {
+            background: linear-gradient(135deg, #2c2416 0%, #4a3f36 50%, #6b5d54 100%);
+        }
+
+        .image-placeholder.night-lights {
+            background: linear-gradient(135deg, #0a1929 0%, #1e3c53 50%, #ffb347 100%);
+        }
+
+        .image-placeholder.modern-day {
+            background: linear-gradient(135deg, #264653 0%, #2a9d8f 50%, #e76f51 100%);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            color: var(--cream);
+            text-transform: uppercase;
+            opacity: 0.7;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Full-screen Parallax Moments */
+        .full-screen-moment {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parallax-image {
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: 1;
+        }
+
+        .parallax-image.riots-scene {
+            background: linear-gradient(
+                rgba(139, 44, 27, 0.3),
+                rgba(12, 12, 12, 0.7)
+            ),
+            linear-gradient(135deg, #4a0e0e 0%, #8b2c1b 50%, #d4af37 100%);
+        }
+
+        .parallax-image.pier-closure {
+            background: linear-gradient(
+                rgba(26, 58, 82, 0.4),
+                rgba(12, 12, 12, 0.8)
+            ),
+            linear-gradient(135deg, #1a3a52 0%, #4a6fa5 50%, #e0a458 100%);
+        }
+
+        .moment-overlay {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 4rem;
+            max-width: 1000px;
+        }
+
+        .overlay-year {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 12rem;
+            font-weight: 700;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(232, 212, 160, 0.3);
+            margin-bottom: 2rem;
+            letter-spacing: -0.05em;
+        }
+
+        .overlay-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 4rem;
+            font-weight: 300;
+            color: var(--cream);
+            margin-bottom: 2rem;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        }
+
+        .overlay-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--bright-gold);
+            max-width: 700px;
+            margin: 0 auto;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        /* Central Ornament for each moment */
+        .moment-ornament {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: var(--obsidian);
+            border: 2px solid var(--old-gold);
+            border-radius: 50%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(181, 152, 90, 0.5);
+        }
+
+        .moment-ornament::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--bright-gold);
+            border-radius: 50%;
+            animation: pulsate 2s ease-in-out infinite;
+        }
+
+        @keyframes pulsate {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        /* Map Section */
+        .map-section {
+            min-height: 100vh;
+            padding: 10rem 4rem;
+            position: relative;
+            background: linear-gradient(180deg, var(--obsidian) 0%, var(--charcoal) 50%, var(--obsidian) 100%);
+        }
+
+        .map-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 5rem;
+            color: var(--old-gold);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .harbour-map {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 600px;
+            position: relative;
+            background: 
+                linear-gradient(135deg, rgba(26, 58, 82, 0.2) 0%, rgba(12, 12, 12, 0.5) 100%),
+                linear-gradient(90deg, #1a3a52 0%, #264653 50%, #1a3a52 100%);
+            border: 1px solid rgba(181, 152, 90, 0.1);
+            overflow: hidden;
+        }
+
+        .map-water {
+            position: absolute;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(181, 152, 90, 0.02) 50px,
+                    rgba(181, 152, 90, 0.02) 51px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(181, 152, 90, 0.02) 50px,
+                    rgba(181, 152, 90, 0.02) 51px
+                );
+            animation: drift 30s linear infinite;
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(50px, 50px); }
+        }
+
+        .ferry-route {
+            position: absolute;
+            stroke: var(--bright-gold);
+            stroke-width: 2;
+            stroke-dasharray: 5, 10;
+            fill: none;
+            opacity: 0.6;
+            animation: dashMove 20s linear infinite;
+        }
+
+        @keyframes dashMove {
+            to { stroke-dashoffset: -15; }
+        }
+
+        .port-marker {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--obsidian);
+            border: 2px solid var(--bright-gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: none;
+            transition: all 0.3s ease;
+        }
+
+        .port-marker:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            box-shadow: 0 0 30px var(--bright-gold);
+        }
+
+        .port-label {
+            position: absolute;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            color: var(--cream);
+            transform: translateX(-50%);
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .port-marker:hover + .port-label {
+            opacity: 1;
+        }
+
+        /* Archives Gallery */
+        .archives-section {
+            padding: 10rem 4rem;
+            background: var(--obsidian);
+        }
+
+        .archives-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .archives-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 3rem;
+            letter-spacing: 0.3em;
+            color: var(--old-gold);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .archives-subtitle {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            color: var(--copper);
+            font-size: 1.2rem;
+        }
+
+        .archives-masonry {
+            max-width: 1400px;
+            margin: 0 auto;
+            columns: 3;
+            column-gap: 2rem;
+        }
+
+        .archive-piece {
+            margin-bottom: 2rem;
+            break-inside: avoid;
+            position: relative;
+            background: var(--charcoal);
+            border: 1px solid rgba(181, 152, 90, 0.1);
+            padding: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealArchive 0.8s ease forwards;
+        }
+
+        .archive-piece:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .archive-piece:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes revealArchive {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .archive-piece:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: var(--bright-gold);
+        }
+
+        .archive-number {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            color: var(--old-gold);
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+
+        .archive-title-small {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1.3rem;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .archive-meta {
+            font-family: 'Crimson Pro', serif;
+            font-size: 0.9rem;
+            color: var(--copper);
+            font-style: italic;
+        }
+
+        .archive-preview {
+            margin-top: 1rem;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(181, 152, 90, 0.03) 0%, transparent 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        /* Epilogue */
+        .epilogue {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 2rem;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(181, 152, 90, 0.05) 0%, transparent 70%);
+        }
+
+        .epilogue-text {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--old-gold);
+            opacity: 0.7;
+            letter-spacing: 0.05em;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(181, 152, 90, 0.1);
+        }
+
+        .footer-text {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: var(--copper);
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title { font-size: 3rem; }
+            .year-marker { font-size: 4rem; }
+            .overlay-year { font-size: 6rem; }
+            .overlay-title { font-size: 2rem; }
+            .timeline-moment.with-image {
+                grid-template-columns: 1fr;
+                direction: ltr !important;
+            }
+            .timeline-moment.with-image > * {
+                direction: ltr !important;
+            }
+            .moment-content { padding: 0 2rem; }
+            .archives-masonry { columns: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-outer"></div>
+    <div class="cursor-inner"></div>
+
+    <!-- Navigation -->
+    <nav class="navigation">
+        <a href="/hk-vessels-museum-homepage.html" class="nav-home">← The Collection</a>
+    </nav>
+
+    <!-- Opening Scene -->
+    <section class="opening-scene">
+        <div class="title-composition">
+            <div class="vessel-number">I</div>
+            <h1 class="main-title">STAR FERRY</h1>
+            <div class="title-chinese">天星小輪</div>
+            <p class="established">Established MDCCCLXXXVIII</p>
+        </div>
+    </section>
+
+    <!-- Chapter Divider -->
+    <div class="chapter-divider">
+        <h2 class="chapter-title">Chronicle of Passages</h2>
+    </div>
+
+    <!-- Timeline -->
+    <section class="timeline-container">
+        <div class="golden-thread">
+            <div class="thread-progress"></div>
+        </div>
+
+        <!-- 1888 - Foundation with Image -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="1888">1888</div>
+                <h3 class="moment-title">The Genesis</h3>
+                <p class="moment-description">
+                    In the twilight of the Victorian era, Dorabjee Naorojee Mithaiwala, 
+                    a Parsee merchant of vision, establishes the Kowloon Ferry Company. 
+                    Four humble vessels begin their eternal dance across the harbour, 
+                    connecting two worlds separated by water yet bound by destiny.
+                </p>
+            </div>
+            <div class="moment-image-large">
+                <div class="image-placeholder vintage-photo">
+                    <div class="image-caption">Victoria Harbour at Dawn, Circa 1890</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 1898 - Naming -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-image-large">
+                <div class="image-placeholder harbor-dawn">
+                    <div class="image-caption">The Morning Star in Service</div>
+                </div>
+            </div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="1898">1898</div>
+                <h3 class="moment-title">Birth of the Stars</h3>
+                <p class="moment-description">
+                    The company transforms, adopting a celestial nomenclature. 
+                    Each vessel becomes a star — Morning Star, Evening Star, Rising Star, 
+                    Guiding Star — navigating not just waters but the firmament of 
+                    Hong Kong's collective imagination.
+                </p>
+            </div>
+        </article>
+
+        <!-- 1916 - Expansion with Image -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="1916">1916</div>
+                <h3 class="moment-title">The Golden Age Begins</h3>
+                <p class="moment-description">
+                    Electric lights illuminate the vessels for the first time, 
+                    transforming the harbour into a constellation of moving lights. 
+                    The ferry becomes not merely transport but spectacle, 
+                    a floating theater of modernity.
+                </p>
+            </div>
+            <div class="moment-image-large">
+                <div class="image-placeholder night-lights">
+                    <div class="image-caption">Electric Illumination Ceremony</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 1941 - War -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-image-large">
+                <div class="image-placeholder war-era">
+                    <div class="image-caption">The Fleet During Occupation</div>
+                </div>
+            </div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="1941">1941</div>
+                <h3 class="moment-title">Dark Waters</h3>
+                <p class="moment-description">
+                    War descends. Japanese forces commandeer the fleet. 
+                    The Golden Star and Meridian Star are lost to enemy action. 
+                    Yet through occupation and hardship, skeletal service continues — 
+                    a lifeline that refuses to be severed.
+                </p>
+            </div>
+        </article>
+
+        <!-- 1966 - Riots FULL SCREEN -->
+        <article class="full-screen-moment">
+            <div class="parallax-image riots-scene"></div>
+            <div class="moment-overlay">
+                <div class="overlay-year">1966</div>
+                <h3 class="overlay-title">Five Cents of Fury</h3>
+                <p class="overlay-text">
+                    A mere five-cent fare increase ignites the powder keg of social tension. 
+                    The Star Ferry riots mark a watershed in Hong Kong's consciousness. 
+                    The ferry, symbol of daily life, becomes the stage for historical transformation.
+                </p>
+            </div>
+        </article>
+
+        <!-- 1978 - Modernization -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="1978">1978</div>
+                <h3 class="moment-title">Renaissance</h3>
+                <p class="moment-description">
+                    Air-conditioning graces the upper decks. Modern vessels join the fleet 
+                    while maintaining the characteristic green and white livery. 
+                    Progress embraces tradition in a delicate waltz of preservation and innovation.
+                </p>
+            </div>
+            <div class="moment-image-large">
+                <div class="image-placeholder modern-day">
+                    <div class="image-caption">The Modernized Fleet</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 2006 - Pier Closure FULL SCREEN -->
+        <article class="full-screen-moment">
+            <div class="parallax-image pier-closure"></div>
+            <div class="moment-overlay">
+                <div class="overlay-year">2006</div>
+                <h3 class="overlay-title">The Last Crossing</h3>
+                <p class="overlay-text">
+                    Edinburgh Place pier closes after 49 years. Thousands gather for final crossings, 
+                    bearing witness to the end of an epoch. The clock tower's final chime 
+                    echoes across waters heavy with memory.
+                </p>
+            </div>
+        </article>
+
+        <!-- Present -->
+        <article class="timeline-moment with-image">
+            <div class="moment-ornament"></div>
+            <div class="moment-image-large">
+                <div class="image-placeholder harbor-dawn">
+                    <div class="image-caption">The Eternal Journey Continues</div>
+                </div>
+            </div>
+            <div class="moment-content">
+                <div class="year-marker" data-year="Now">Today</div>
+                <h3 class="moment-title">Eternal Voyage</h3>
+                <p class="moment-description">
+                    136 years of continuous service. 70,000 daily passages. 
+                    The Star Ferry endures — not as relic but as living heritage, 
+                    each crossing a thread in the tapestry of Hong Kong's soul. 
+                    The stars still sail, and the harbour remembers.
+                </p>
+            </div>
+        </article>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <h2 class="map-title">The Sacred Routes</h2>
+        <div class="harbour-map">
+            <div class="map-water"></div>
+            
+            <!-- SVG Routes -->
+            <svg width="100%" height="100%" style="position: absolute;">
+                <path class="ferry-route" d="M 200 300 Q 600 280 1000 300"></path>
+                <path class="ferry-route" d="M 300 350 Q 600 340 900 350"></path>
+            </svg>
+            
+            <!-- Port Markers -->
+            <div class="port-marker" style="top: 50%; left: 20%;"></div>
+            <div class="port-label" style="top: 45%; left: 20%;">Central</div>
+            
+            <div class="port-marker" style="top: 50%; left: 80%;"></div>
+            <div class="port-label" style="top: 45%; left: 80%;">Tsim Sha Tsui</div>
+            
+            <div class="port-marker" style="top: 60%; left: 60%;"></div>
+            <div class="port-label" style="top: 55%; left: 60%;">Wan Chai</div>
+        </div>
+    </section>
+
+    <!-- Archives Gallery -->
+    <section class="archives-section">
+        <div class="archives-header">
+            <h2 class="archives-title">The Archives</h2>
+            <p class="archives-subtitle">Fragments of Memory Preserved in Time</p>
+        </div>
+        
+        <div class="archives-masonry">
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 001</div>
+                <h3 class="archive-title-small">Original Charter Document</h3>
+                <p class="archive-meta">March 1888 • Parchment</p>
+                <div class="archive-preview">📜</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 002</div>
+                <h3 class="archive-title-small">Morning Star Ship's Bell</h3>
+                <p class="archive-meta">1924 • Bronze Artifact</p>
+                <div class="archive-preview">🔔</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 003</div>
+                <h3 class="archive-title-small">Occupation Period Log</h3>
+                <p class="archive-meta">1941-1945 • Handwritten Journal</p>
+                <div class="archive-preview">📖</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 004</div>
+                <h3 class="archive-title-small">1966 Riot Coverage</h3>
+                <p class="archive-meta">South China Morning Post</p>
+                <div class="archive-preview">📰</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 005</div>
+                <h3 class="archive-title-small">Meridian Star Blueprints</h3>
+                <p class="archive-meta">1956 • Technical Drawing</p>
+                <div class="archive-preview">📐</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 006</div>
+                <h3 class="archive-title-small">Final Crossing Ticket</h3>
+                <p class="archive-meta">Edinburgh Place • 2006</p>
+                <div class="archive-preview">🎫</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 007</div>
+                <h3 class="archive-title-small">Captain's Uniform</h3>
+                <p class="archive-meta">1978 • Preserved Textile</p>
+                <div class="archive-preview">🎖️</div>
+            </div>
+            
+            <div class="archive-piece">
+                <div class="archive-number">ARCHIVE 008</div>
+                <h3 class="archive-title-small">Victoria Harbour at Dawn</h3>
+                <p class="archive-meta">1955 • Silver Gelatin Print</p>
+                <div class="archive-preview">📷</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Epilogue -->
+    <section class="epilogue">
+        <p class="epilogue-text">
+            "The ferry does not merely cross water — it traverses time itself,
+            each journey a ritual connecting past to present,
+            memory to hope."
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">The Maritime Collection • Hong Kong • MMXXIV</p>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursorOuter = document.querySelector('.cursor-outer');
+        const cursorInner = document.querySelector('.cursor-inner');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorOuter.style.left = e.clientX - 20 + 'px';
+            cursorOuter.style.top = e.clientY - 20 + 'px';
+            cursorInner.style.left = e.clientX - 1.5 + 'px';
+            cursorInner.style.top = e.clientY - 1.5 + 'px';
+        });
+
+        // Hover effects
+        const interactiveElements = document.querySelectorAll('a, .port-marker, .archive-piece');
+        interactiveElements.forEach(elem => {
+            elem.addEventListener('mouseenter', () => {
+                cursorOuter.style.transform = 'scale(2)';
+                cursorOuter.style.borderColor = 'var(--bright-gold)';
+            });
+            elem.addEventListener('mouseleave', () => {
+                cursorOuter.style.transform = 'scale(1)';
+                cursorOuter.style.borderColor = 'var(--old-gold)';
+            });
+        });
+
+        // Timeline reveal on scroll
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.moment-content, .moment-image-large').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Chapter title animation
+        const chapterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.chapter-title').forEach(title => {
+            chapterObserver.observe(title);
+        });
+
+        // Golden thread progress
+        const thread = document.querySelector('.thread-progress');
+        const updateThreadProgress = () => {
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.pageYOffset;
+            const progress = (scrolled / scrollHeight) * 100;
+            if (thread) {
+                thread.style.height = `${progress}%`;
+            }
+        };
+
+        window.addEventListener('scroll', updateThreadProgress);
+        window.addEventListener('resize', updateThreadProgress);
+
+        // Parallax effects
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            
+            // Hero parallax
+            const hero = document.querySelector('.opening-scene');
+            const title = document.querySelector('.title-composition');
+            
+            if (hero && scrolled < window.innerHeight) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                title.style.transform = `translateY(${scrolled * 0.3}px)`;
+                title.style.opacity = 1 - scrolled / 800;
+            }
+
+            // Full-screen moment parallax
+            document.querySelectorAll('.parallax-image').forEach(image => {
+                const rect = image.getBoundingClientRect();
+                const speed = 0.5;
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    const yPos = -(scrolled * speed);
+                    image.style.transform = `translateY(${yPos}px) scale(1.2)`;
+                }
+            });
+        });
+
+        // Smooth reveal for archives
+        const archivePieces = document.querySelectorAll('.archive-piece');
+        const archiveObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.animationPlayState = 'running';
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        archivePieces.forEach(piece => {
+            piece.style.animationPlayState = 'paused';
+            archiveObserver.observe(piece);
+        });
+
+        // Port marker interactions
+        document.querySelectorAll('.port-marker').forEach(marker => {
+            marker.addEventListener('click', function() {
+                const ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: 100px;
+                    height: 100px;
+                    border: 1px solid var(--bright-gold);
+                    border-radius: 50%;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    animation: rippleOut 1.5s ease-out;
+                    pointer-events: none;
+                `;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 1500);
+            });
+        });
+
+        // Add ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rippleOut {
+                0% {
+                    width: 0;
+                    height: 0;
+                    opacity: 1;
+                }
+                100% {
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
